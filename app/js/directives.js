@@ -20,22 +20,33 @@ angular.module('myApp')
       list: '=',
       input: '=',
       label: '@',
-      inline: '@'
+      inline: '@',
+      listBy: '@'
     },
     link: function($scope, $element, attrs) {
       $scope.checkAgainstList = function(input){
         if(input.length) {
           if(typeof this.list == String) this.list = JSON.parse(this.list);
-          this.possibilities = this.list.filter(function(state){
-            return state.$value.indexOf(input) > -1;
-          });
+          if(this.listBy === 'value') {
+            this.possibilities = this.list.filter(function(item){
+              return item.$value.indexOf(input) > -1;
+            });
+          } else if(this.listBy === 'key') {
+            this.possibilities = this.list.filter(function(item){
+              return item.$id.indexOf(input) > -1;
+            });
+          }
         } else {
           this.possibilities = [];
         }
       };
 
       $scope.selectItem = function(item){
-        $scope.input = item.$value;
+        if(this.listBy === 'value') {
+          $scope.input = item.$value;
+        } else if(this.listBy === 'key') {
+          $scope.input = item.$id;
+        }
         $scope.possibilities = [];
       };
     }

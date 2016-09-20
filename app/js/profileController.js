@@ -10,6 +10,7 @@ angular.module('myApp')
   this.houseStyles = $firebaseArray(rootRef.child('houseStyles'));
   this.cityStyles = $firebaseArray(rootRef.child('cityStyles'));
   this.geoStates = $firebaseArray(rootRef.child('geoStates'));
+  this.geoCities = $firebaseArray(rootRef.child('geoCities'));
 
 
   $scope.saveProfile = function(user){
