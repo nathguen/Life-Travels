@@ -1,0 +1,10 @@
+<div ng-class="{'form-flex-group': inline}">
+  <label for="{{label.toLowerCase()}}">{{label}}</label>
+  <div class="auto-complete-box">
+    <input class="form-control" for="{{label.toLowerCase()}}" type="text" ng-model="input" ng-change="checkAgainstList(input)">
+    <ul class="auto-complete-suggestions" ng-show="possibilities.length">
+      <li ng-repeat="item in possibilities" ng-click="selectItem(item)">{{item.$value}}</li>
+    </ul>
+  </div>
+
+</div>
