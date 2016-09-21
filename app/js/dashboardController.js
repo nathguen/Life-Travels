@@ -4,6 +4,7 @@ angular.module('myApp')
   var nathanRef = rootRef.child('users').child('nathguen');
   this.user = $firebaseObject(nathanRef);
 
+
   $scope.orderBy = {
     radio: 'highIncome',
     reverse: true,
@@ -290,40 +291,42 @@ angular.module('myApp')
     }
   ];
 
-  for(var i = 0; i < $scope.sampleLocations.length; i++) {
-
-    // sample data
-    // ultimately this should come from a database
-    if(this.user.salary == undefined || this.user.salary == null) this.user.salary = 80000;
-    if(this.user.housingCost == undefined || this.user.housingCost == null) this.user.housingCost = 850;
-    if(this.user.foodCost == undefined || this.user.foodCost == null) this.user.foodCost = 400;
-    $scope.sampleLocations[i].costs = {
-      housing: 600 + (2000 * Math.random()),
-      food: 200 + (800 * Math.random())
-    };
-    var salaryRange = 40000;
-    $scope.sampleLocations[i].salary = (this.user.salary - salaryRange) + (salaryRange * 1.5 * Math.random());
 
 
-    $scope.sampleLocations[i].compare = {};
-    for(type in $scope.sampleLocations[i].costs) {
-      // define the comparison object if undefined
-      if($scope.sampleLocations[i].compare[type] == undefined) $scope.sampleLocations[i].compare[type] = {};
+  this.user.$loaded(function(resp){
+    for(var i = 0; i < $scope.sampleLocations.length; i++) {
 
-      // break down of the costs for comparison
-      $scope.sampleLocations[i].compare[type].cost = $scope.sampleLocations[i].costs[type];
-      $scope.sampleLocations[i].compare[type].diff = $scope.sampleLocations[i].costs[type] - this.user[type + 'Cost'];
-      $scope.sampleLocations[i].compare[type].percent = $scope.sampleLocations[i].costs[type] / this.user[type + 'Cost'];
+      // sample data
+      // ultimately this should come from a database
+      $scope.sampleLocations[i].costs = {
+        housing: 600 + (2000 * Math.random()),
+        food: 200 + (800 * Math.random())
+      };
+      var salaryRange = 40000;
+      $scope.sampleLocations[i].salary = (resp.salary - salaryRange) + (salaryRange * 1.5 * Math.random());
 
-      // define the salary vars if undefined
-      if($scope.sampleLocations[i].compare.salary == undefined) $scope.sampleLocations[i].compare.salary = {};
-      if($scope.sampleLocations[i].compare.salary.diff == undefined) $scope.sampleLocations[i].compare.salary.diff = $scope.sampleLocations[i].salary;
-      // adjusts the comparable salary based on the costs of the new location
-      $scope.sampleLocations[i].compare.salary.diff -= $scope.sampleLocations[i].compare[type].diff;
-      $scope.sampleLocations[i].compare.salary.percent = $scope.sampleLocations[i].compare.salary.diff / this.user.salary;
-      $scope.sampleLocations[i].salaryDiff = $scope.sampleLocations[i].compare.salary.diff;
-      $scope.sampleLocations[i].distanceDiff = 1000 * Math.random();
+
+      $scope.sampleLocations[i].compare = {};
+      for(type in $scope.sampleLocations[i].costs) {
+        // define the comparison object if undefined
+        if($scope.sampleLocations[i].compare[type] == undefined) $scope.sampleLocations[i].compare[type] = {};
+
+        // break down of the costs for comparison
+        $scope.sampleLocations[i].compare[type].cost = $scope.sampleLocations[i].costs[type];
+        $scope.sampleLocations[i].compare[type].diff = $scope.sampleLocations[i].costs[type] - resp[type + 'Cost'];
+        $scope.sampleLocations[i].compare[type].percent = $scope.sampleLocations[i].costs[type] / resp[type + 'Cost'];
+
+        // define the salary vars if undefined
+        if($scope.sampleLocations[i].compare.salary == undefined) $scope.sampleLocations[i].compare.salary = {};
+        if($scope.sampleLocations[i].compare.salary.diff == undefined) $scope.sampleLocations[i].compare.salary.diff = $scope.sampleLocations[i].salary;
+        // adjusts the comparable salary based on the costs of the new location
+        $scope.sampleLocations[i].compare.salary.diff -= $scope.sampleLocations[i].compare[type].diff;
+        $scope.sampleLocations[i].compare.salary.percent = $scope.sampleLocations[i].compare.salary.diff / resp.salary;
+        $scope.sampleLocations[i].salaryDiff = $scope.sampleLocations[i].compare.salary.diff;
+        $scope.sampleLocations[i].distanceDiff = 1000 * Math.random();
+      }
     }
-  };
+  });
+
 
 }]);

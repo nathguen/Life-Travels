@@ -5853,7 +5853,26 @@ header {
 
 .dashboard-profile-box {
   background: #e6e6e6;
-  padding: 10px 11%; }
+  padding: 50px 11% 10px 11%;
+  position: relative; }
+  .dashboard-profile-box h1.dashboard-profile-title {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding-top: 15px;
+    padding-bottom: 3px;
+    color: #828282;
+    font-size: 160%; }
+  .dashboard-profile-box .dashboard-profile-tidbits-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row; }
+  .dashboard-profile-box .dashboard-profile-tidbit-title {
+    font-weight: 400; }
   .dashboard-profile-box p {
     margin: 0;
     padding: 0;
@@ -5916,10 +5935,6 @@ header {
   .feed-item .feed-item-details.table td,
   .feed-item .feed-item-details.table tr > th {
     border-top: none; }
-
-.growl-item.alert {
-  position: fixed;
-  width: calc(100% - 60px); }
 
 .profile-box {
   background: #fff4ec;

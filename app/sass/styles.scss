@@ -48,7 +48,29 @@ header {
 
 .dashboard-profile-box {
   background: rgb(230,230,230);
-  padding: 10px 11%;
+  padding: 50px 11% 10px 11%;
+  position: relative;
+  h1.dashboard-profile-title {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding-top: 15px;
+    padding-bottom: 3px;
+    color: rgb(130,130,130);
+    font-size: 160%;
+  }
+  .dashboard-profile-tidbits-container {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+  }
+  .dashboard-profile-tidbit-title {
+    font-weight: 400;
+  }
   p {
     margin: 0;
     padding: 0;
@@ -127,10 +149,10 @@ header {
   }
 }
 
-.growl-item.alert {
-  position: fixed;
-  width: calc(100% - 60px);
-}
+// .growl-item.alert {
+//   position: fixed;
+//   width: calc(100% - 60px);
+// }
 
 .profile-box {
   background: $seashell;

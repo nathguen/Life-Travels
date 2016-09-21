@@ -1,7 +1,21 @@
 <div class="dashboard-profile-box">
-  <p>{{ctrl.user.name}}</p>
-  <p>{{ctrl.user.city}}, {{ctrl.user.state}}</p>
-  <p>{{ctrl.user.salary | currency:"$":0}}</p>
+  <!-- <p>{{ctrl.user.name}}</p> -->
+  <h1 class="dashboard-profile-title">{{ctrl.user.name}}, {{ctrl.user.city}}, {{ctrl.user.state}}</h1>
+  <div class="dashboard-profile-tidbits-container">
+    <div class="dashboard-profile-tidbit">
+      <p class="dashboard-profile-tidbit-title">Current Salary</p>
+      <!-- <p>{{ctrl.user.city}}, {{ctrl.user.state}}</p> -->
+      <p>{{ctrl.user.salary | currency:"$":0}}</p>
+    </div>
+    <div class="dashboard-profile-tidbit text-center">
+      <p class="dashboard-profile-tidbit-title">Current Housing Costs</p>
+      <p>{{ctrl.user.housingCost | currency:"$":0}}</p>
+    </div>
+    <div class="dashboard-profile-tidbit text-right">
+      <p class="dashboard-profile-tidbit-title">Current Food Costs</p>
+      <p>{{ctrl.user.foodCost | currency:"$":0}}</p>
+    </div>
+  </div>
 </div>
 
 
