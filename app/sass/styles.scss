@@ -1,9 +1,26 @@
 @import 'modules/bootstrap/_bootstrap.scss';
 @import 'modules/palette.scss';
 
+.loading-spinner {
+  background: url('https://i1.wp.com/cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif');
+  width: 30px;
+  height: 30px;
+  content: '';
+  background-size: 30px;
+  background-repeat: no-repeat;
+}
+
+.container {
+  margin-top: 15px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 200;
+}
+
 header {
   background: #337ab7;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 
   ul {
     list-style: none;
@@ -26,6 +43,52 @@ header {
         opacity: 0.9;
       }
     }
+  }
+}
+
+.dashboard-profile-box {
+  background: rgb(230,230,230);
+  padding: 10px 11%;
+  p {
+    margin: 0;
+    padding: 0;
+    font-weight: 200;
+    font-size: 125%;
+  }
+}
+
+.feed-sheet {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.positive-change {
+  color: $brand-success;
+}
+.negative-change {
+  color: $brand-danger;
+}
+
+.feed-item {
+  cursor: pointer;
+  border: 1px solid #d2d2d2;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0px 1px 4px #d2d2d2;
+  margin-bottom: 5px;
+  width: calc(100% / 3 - 15px);
+  margin-right: 5px;
+  h3 {
+    font-size: 140%;
+    padding: 0;
+    margin: 4px 0 7px 0;
+  }
+  .feed-item-flex-inline-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
@@ -76,6 +139,24 @@ ul.auto-complete-suggestions {
   flex-direction: row;
 }
 
+h2.search-input-header {
+  border-bottom: 1px solid;
+  font-weight: 300;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
+
+.flex-two-cols {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.left-col, .right-col {
+  display: flex;
+  flex-direction: column;
+}
+
 
 .success-message {
   display: block;
@@ -103,3 +184,51 @@ ul.auto-complete-suggestions {
     margin-right: 15px;
   }
 }
+
+
+
+
+
+
+// NG ANIMATE
+/*
+  We're using CSS transitions for when
+  the enter and move events are triggered
+  for the element that has the .repeated-item
+  class
+*/
+.feed-item.ng-enter, .feed-item.ng-move {
+  transition: all 0.6s ease-out;
+  opacity: 0;
+  margin-top: 30px;
+}
+
+/*
+ The ng-enter-active and ng-move-active
+ are where the transition destination properties
+ are set so that the animation knows what to
+ animate.
+*/
+.feed-item.ng-enter.ng-enter-active,
+.feed-item.ng-move.ng-move-active {
+  opacity: 1;
+  margin-top: 0;
+}
+
+/*
+  We're using CSS keyframe animations for when
+  the leave event is triggered for the element
+  that has the .repeated-item class
+*/
+.feed-item.ng-leave {
+  transition: all 0.2s linear;
+  opacity: 0;
+//   animation: 0.5s my_animation;
+}
+
+// @keyframes my_animation {
+//   from { margin-left:0; }
+//   to { margin-left:-10px; }
+// }
+
+// END NG ANIMATE

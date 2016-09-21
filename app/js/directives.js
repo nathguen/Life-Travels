@@ -20,10 +20,15 @@ angular.module('myApp')
       list: '=',
       input: '=',
       label: '@',
-      inline: '@',
       listBy: '@'
     },
     link: function($scope, $element, attrs) {
+      if(attrs.inline === 'false') {
+        $scope.inline = false;
+      } else {
+        $scope.inline = true;
+      }
+
       $scope.checkAgainstList = function(input){
         if(input.length) {
           if(typeof this.list == String) this.list = JSON.parse(this.list);
@@ -56,6 +61,15 @@ angular.module('myApp')
 .filter('capitalize', function(){
   return function(input) {
     output = input.substring(0,1).toUpperCase() + input.substring(1, input.length);
+    return output;
+  }
+})
+
+.filter('percentage', function(){
+  return function(input){
+    output = (input - 1) * 100;
+    output = Math.round(output);
+    output = output += '%';
     return output;
   }
 });

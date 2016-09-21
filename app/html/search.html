@@ -1,4 +1,37 @@
 <div class="profile-box">
   <p class="profile-name">{{ctrl.user.name}}</p>
-  <p class="profile-salary">Currently salary: {{ctrl.user.salary | currency:"$":0}}</p>
+  <p class="profile-salary">Present salary: {{ctrl.user.salary | currency:"$":0}}</p>
+</div>
+<div class="flex-two-cols container">
+  <div class="loading-spinner" ng-show="ctrl.geoStates.length == 0"></div>
+  <div class="left-col" ng-hide="ctrl.geoStates.length == 0">
+    <h2 class="search-input-header">Present</h2>
+    <div class="form-group">
+      <text-auto-complete inline="false" list-by="value" label="State" list="ctrl.geoStates" input="ctrl.user.state"></text-auto-complete>
+    </div>
+    <div class="form-group">
+      <text-auto-complete inline="false" list-by="key" label="City" list="ctrl.geoCities" input="ctrl.user.city"></text-auto-complete>
+    </div>
+    <div class="form-group">
+      <label for="current-salary">Salary</label>
+      <input type="number" class="form-control" name="current-salary" value="{{ctrl.user.salary}}" ng-model="currentSalary">
+    </div>
+    <div class="form-group">
+      <label for="current-housing">Housing Cost per Month</label>
+      <input type="number" class="form-control" name="current-housing" ng-model="ctrl.user.housingCost">
+    </div>
+    <h2 class="search-input-header">Hoping</h2>
+    <div class="form-group">
+      <text-auto-complete inline="false" list-by="value" label="State" list="ctrl.geoStates" input="future.state"></text-auto-complete>
+    </div>
+    <div class="form-group">
+      <text-auto-complete inline="false" list-by="key" label="City" list="ctrl.geoCities" input="future.city"></text-auto-complete>
+    </div>
+    <button type="button" class="btn btn-primary" name="compare" ng-click="compareCities(ctrl.user, future)">Compare</button>
+  </div>
+  <div class="right-col">
+    <p><strong>Housing Cost: </strong>{{results.future.housing.cost | currency:"$":0}}</p>
+    <p><strong>Housing Difference: </strong>{{results.compare.housing.diff | currency:"$":0}}</p>
+    <p><strong>Housing Percent: </strong>{{results.compare.housing.percent | percentage}}</p>
+  </div>
 </div>
