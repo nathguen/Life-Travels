@@ -63,11 +63,40 @@ header {
   flex-wrap: wrap;
 }
 
+.positive-change:before,
+.negative-change:before {
+  padding-right: 4px;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+}
 .positive-change {
   color: $brand-success;
+  &:before {
+    content: "\e093";
+  }
 }
 .negative-change {
   color: $brand-danger;
+  &:before {
+    content: "\e094";
+  }
+}
+
+.toggle-link {
+  color: $gray-light;
+  font-size: 80%;
+}
+
+.dashboard-filters {
+  display: block;
+  position: relative;
+  margin-bottom: 15px;
+  .form-group {
+    margin-left: 15px;
+    input[type="radio"] {
+      margin-right: 3px;
+    }
+  }
 }
 
 .feed-item {
@@ -89,6 +118,12 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+  // removes the unused border
+  .feed-item-details.table td,
+  .feed-item-details.table tr > th {
+    border-top: none;
   }
 }
 

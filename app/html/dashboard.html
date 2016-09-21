@@ -8,27 +8,42 @@
 <div class="container">
 
   <h2>Possible Locations</h2>
-  <form class="form-inline">
+  <form class="form-inline dashboard-filters">
     <span>Order by: </span>
     <div class="form-group">
-      <input type="radio" name="feed-order" ng-value="true" id="high-income" ng-model="orderBy.highIncome" ng-change="changeFeedOrder()">
+      <input type="radio" name="feed-order" value="highIncome" id="high-income" ng-model="orderBy.radio" ng-change="changeFeedOrder(orderBy.radio)">
       <label for="high-income">Highest Income</label>
     </div>
     <div class="form-group">
-      <input type="radio" name="feed-order" ng-value="false" id="low-income" ng-model="orderBy.highIncome" ng-change="changeFeedOrder()">
+      <input type="radio" name="feed-order" value="lowIncome" id="low-income" ng-model="orderBy.radio" ng-change="changeFeedOrder(orderBy.radio)">
       <label for="low-income">Lowest Income</label>
+    </div>
+    <div class="form-group">
+      <input type="radio" name="feed-order" value="shortDistance" id="short-distance" ng-model="orderBy.radio" ng-change="changeFeedOrder(orderBy.radio)">
+      <label for="short-distance">Shortest Distance</label>
+    </div>
+    <div class="form-group">
+      <input type="radio" name="feed-order" value="farDistance" id="far-distance" ng-model="orderBy.radio" ng-change="changeFeedOrder(orderBy.radio)">
+      <label for="far-distance">Furthest Distance</label>
     </div>
   </form>
 
   <div class="feed-sheet">
-    <div class="feed-item" ng-repeat="location in sampleLocations | orderBy:compare.salary.diff:orderBy.highIncome" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">
-      <h3>{{location.city}}, {{location.state}}</h3>
+    <div class="feed-item" ng-repeat="location in sampleLocations | orderObjectBy:orderBy.value:orderBy.reverse" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">
+      <div class="feed-item-flex-inline-text"><h3>{{location.city}}, {{location.state}}</h3><span class="feed-item-distance">{{location.distanceDiff | number:1}} mi</span></div>
       <p class="feed-item-flex-inline-text"><span>{{location.compare.salary.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.salary.percent | percentage}}</span></p>
-      <a ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">{{location.showDetails ? 'Hide Details' : 'Show Details'}}</a>
-      <div class="feed-item-details" ng-show="location.showDetails">
-        <p class="feed-item-flex-inline-text"><span>Housing</span><span>{{location.compare.housing.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.housing.percent > 1, 'negative-change': location.compare.housing.percent < 1}">{{location.compare.housing.percent | percentage}}</span></p>
-        <p class="feed-item-flex-inline-text"><span>Food</span><span>{{location.compare.food.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.food.percent > 1, 'negative-change': location.compare.food.percent < 1}">{{location.compare.food.percent | percentage}}</span></p>
-      </div>
+      <a class="toggle-link" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">{{location.showDetails ? 'Hide Details' : 'Show Details'}}</a>
+      <table class="feed-item-details table" ng-show="location.showDetails">
+        <tr><thead><th>Cost</th><th>Actual</th><th>Difference</th><th class="text-right">% Change</th></thead></tr>
+        <tr>
+          <td>Housing</td><td>{{location.costs.housing | currency:"$":0}}</td><td>{{location.compare.housing.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.housing.percent | percentage}}</td>
+        </tr>
+        <tr>
+          <td>Food</td><td>{{location.costs.food | currency:"$":0}}</td><td>{{location.compare.food.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.food.percent | percentage}}</td>
+        </tr>
+        <!-- <p class="feed-item-flex-inline-text"><span>Housing</span><span>{{location.compare.housing.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.housing.percent > 1, 'negative-change': location.compare.housing.percent < 1}">{{location.compare.housing.percent | percentage}}</span></p>
+        <p class="feed-item-flex-inline-text"><span>Food</span><span>{{location.compare.food.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.food.percent > 1, 'negative-change': location.compare.food.percent < 1}">{{location.compare.food.percent | percentage}}</span></p> -->
+      </table>
     </div>
   </div>
 </div>

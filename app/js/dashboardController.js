@@ -5,47 +5,37 @@ angular.module('myApp')
   this.user = $firebaseObject(nathanRef);
 
   $scope.orderBy = {
-    highIncome: true
+    radio: 'highIncome',
+    reverse: true,
+    value: 'salaryDiff'
   };
-  // $scope.changeFeedOrder = function(){
-  //   var newFeed = [];
-  //   $scope.sampleLocations.forEach(function(location){
-  //     newFeed.push(location);
-  //   });
-  //   if($scope.orderBy.highIncome) {
-  //     // sort to show high income
-  //     var highSalary = newFeed[0].compare.salary.diff;
-  //     for(var i = 0; i < newFeed.length; i++) {
-  //       if(newFeed[i].compare.salary.diff > highSalary) {
-  //         highSalary = newFeed[i].compare.salary.diff;
-  //         var feedItem = newFeed.splice(i, 1);
-  //         newFeed.unshift(feedItem[0]);
-  //         i = 0;
-  //       }
-  //     }
-  //   } else {
-  //     // sort to show low income
-  //     var lowSalary = newFeed[0].compare.salary.diff;
-  //     for(var i = 0; i < newFeed.length; i++) {
-  //       if(newFeed[i].compare.salary.diff < lowSalary) {
-  //         lowSalary = newFeed[i].compare.salary.diff;
-  //         var feedItem = newFeed.splice(i, 1);
-  //         newFeed.unshift(feedItem[0]);
-  //         i = 0;
-  //       }
-  //     }
-  //   }
-  //
-  //   $scope.sampleLocations = [];
-  //   $scope.sampleLocations = newFeed;
-  //   // $timeout;
-  //   // newFeed.forEach(function(location){
-  //   //   location;
-  //   //   $timeout(function(){
-  //   //     $scope.sampleLocations.push(location);
-  //   //   });
-  //   // });
-  // };
+
+  $scope.changeFeedOrder = function(type){
+    // debugger
+    if(type === 'highIncome') {
+      $scope.orderBy.value = 'salaryDiff';
+      $scope.orderBy.reverse = true;
+    } else if (type === 'lowIncome') {
+      $scope.orderBy.value = 'salaryDiff';
+      $scope.orderBy.reverse = false;
+    } else if (type === 'shortDistance') {
+      $scope.orderBy.value = 'distanceDiff';
+      $scope.orderBy.reverse = false;
+    } else if (type === 'farDistance') {
+      $scope.orderBy.value = 'distanceDiff';
+      $scope.orderBy.reverse = true;
+    }
+    // console.log('change');
+    // if(type === 'income') {
+    //   $scope.orderBy.value = 'salaryDiff';
+    //   $scope.orderBy.reverse = $scope.orderBy.highIncome;
+    // } else if(type === 'distance') {
+    //   $scope.orderBy.value = 'distanceDiff';
+    //   $scope.orderBy.reverse = $scope.orderBy.shortestDistance;
+    // }
+  };
+
+
 
   $scope.sampleLocations = [
     {
@@ -331,7 +321,8 @@ angular.module('myApp')
       // adjusts the comparable salary based on the costs of the new location
       $scope.sampleLocations[i].compare.salary.diff -= $scope.sampleLocations[i].compare[type].diff;
       $scope.sampleLocations[i].compare.salary.percent = $scope.sampleLocations[i].compare.salary.diff / this.user.salary;
-
+      $scope.sampleLocations[i].salaryDiff = $scope.sampleLocations[i].compare.salary.diff;
+      $scope.sampleLocations[i].distanceDiff = 1000 * Math.random();
     }
   };
 
