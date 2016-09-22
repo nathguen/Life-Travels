@@ -3,13 +3,14 @@ angular.module('myApp')
   var rootRef = firebase.database().ref();
   var nathanRef = rootRef.child('users').child('nathguen');
   this.user = $firebaseObject(nathanRef);
-
+  $scope.loading = true;
 
   $scope.orderBy = {
     radio: 'highIncome',
     reverse: true,
     value: 'salaryDiff'
   };
+
 
   $scope.changeFeedOrder = function(type){
     // debugger
@@ -26,14 +27,16 @@ angular.module('myApp')
       $scope.orderBy.value = 'distanceDiff';
       $scope.orderBy.reverse = true;
     }
-    // console.log('change');
-    // if(type === 'income') {
-    //   $scope.orderBy.value = 'salaryDiff';
-    //   $scope.orderBy.reverse = $scope.orderBy.highIncome;
-    // } else if(type === 'distance') {
-    //   $scope.orderBy.value = 'distanceDiff';
-    //   $scope.orderBy.reverse = $scope.orderBy.shortestDistance;
-    // }
+  };
+
+  $scope.removeFeedItem = function(item, $index){
+    for(var i = 0; i < $scope.sampleLocations.length; i++) {
+      if($scope.sampleLocations[i].city === item.city && $scope.sampleLocations[i].state === item.state) {
+        $scope.sampleLocations.splice(i, 1);
+      }
+    }
+    // debugger
+    // if($scope.sampleLocations[$index])
   };
 
 
@@ -294,6 +297,7 @@ angular.module('myApp')
 
 
   this.user.$loaded(function(resp){
+    $scope.loading = false;
     for(var i = 0; i < $scope.sampleLocations.length; i++) {
 
       // sample data

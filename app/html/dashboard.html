@@ -1,26 +1,21 @@
-<div class="dashboard-profile-box">
+<div class="loading-spinner" ng-show="loading"></div>
+
+<div class="dashboard-profile-box" ng-hide="loading">
   <!-- <p>{{ctrl.user.name}}</p> -->
-  <h1 class="dashboard-profile-title">{{ctrl.user.name}}, {{ctrl.user.city}}, {{ctrl.user.state}}</h1>
+  <div class="dashboard-profile-personal-info">
+    <h1 class="dashboard-profile-name" ng-show="ctrl.user.name.length">{{ctrl.user.name}}</h1>
+    <h2 class="dashboard-profile-location" ng-show="ctrl.user.city.length && ctrl.user.state.length">{{ctrl.user.city}}, {{ctrl.user.state}}</h2>
+  </div>
   <div class="dashboard-profile-tidbits-container">
-    <div class="dashboard-profile-tidbit">
-      <p class="dashboard-profile-tidbit-title">Current Salary</p>
-      <!-- <p>{{ctrl.user.city}}, {{ctrl.user.state}}</p> -->
-      <p>{{ctrl.user.salary | currency:"$":0}}</p>
-    </div>
-    <div class="dashboard-profile-tidbit text-center">
-      <p class="dashboard-profile-tidbit-title">Current Housing Costs</p>
-      <p>{{ctrl.user.housingCost | currency:"$":0}}</p>
-    </div>
-    <div class="dashboard-profile-tidbit text-right">
-      <p class="dashboard-profile-tidbit-title">Current Food Costs</p>
-      <p>{{ctrl.user.foodCost | currency:"$":0}}</p>
-    </div>
+    <h3>Profile</h3>
+    <p><span>Your Salary</span><span>{{ctrl.user.salary | currency:"$":0}}</span></p>
+    <p><span>Your Housing Costs</span><span>{{ctrl.user.housingCost | currency:"$":0}}</span></p>
+    <p><span>Your Food Costs</span><span>{{ctrl.user.foodCost | currency:"$":0}}</span></p>
   </div>
 </div>
 
 
-<div class="container">
-
+<div class="container" ng-hide="loading">
   <h2>Possible Locations</h2>
   <form class="form-inline dashboard-filters">
     <span>Order by: </span>
@@ -46,18 +41,29 @@
     <div class="feed-item" ng-repeat="location in sampleLocations | orderObjectBy:orderBy.value:orderBy.reverse" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">
       <div class="feed-item-flex-inline-text"><h3>{{location.city}}, {{location.state}}</h3><span class="feed-item-distance">{{location.distanceDiff | number:1}} mi</span></div>
       <p class="feed-item-flex-inline-text"><span>{{location.compare.salary.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.salary.percent | percentage}}</span></p>
-      <a class="toggle-link" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">{{location.showDetails ? 'Hide Details' : 'Show Details'}}</a>
-      <table class="feed-item-details table" ng-show="location.showDetails">
-        <tr><thead><th>Cost</th><th>Actual</th><th>Difference</th><th class="text-right">% Change</th></thead></tr>
-        <tr>
-          <td>Housing</td><td>{{location.costs.housing | currency:"$":0}}</td><td>{{location.compare.housing.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.housing.percent | percentage}}</td>
-        </tr>
-        <tr>
-          <td>Food</td><td>{{location.costs.food | currency:"$":0}}</td><td>{{location.compare.food.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.food.percent | percentage}}</td>
-        </tr>
-        <!-- <p class="feed-item-flex-inline-text"><span>Housing</span><span>{{location.compare.housing.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.housing.percent > 1, 'negative-change': location.compare.housing.percent < 1}">{{location.compare.housing.percent | percentage}}</span></p>
-        <p class="feed-item-flex-inline-text"><span>Food</span><span>{{location.compare.food.diff | currency:"$":0}}</span><span ng-class="{'positive-change': location.compare.food.percent > 1, 'negative-change': location.compare.food.percent < 1}">{{location.compare.food.percent | percentage}}</span></p> -->
-      </table>
+      <div class="feed-item-details" ng-show="location.showDetails">
+        <div class="feed-item-location-salary">
+          <p><span>Estimated Salary for Area</span><span>{{location.salary | currency:"$":0}}</span></p>
+        </div>
+        <table class="table">
+          <tr>
+            <thead><th>Cost</th><th>Actual</th><th>Difference</th><th class="text-right">% Change</th></thead>
+          </tr>
+          <tr>
+            <td>Housing</td><td>{{location.costs.housing | currency:"$":0}}</td><td>{{location.compare.housing.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.housing.percent | percentage}}</td>
+          </tr>
+          <tr>
+            <td>Food</td><td>{{location.costs.food | currency:"$":0}}</td><td>{{location.compare.food.diff | currency:"$":0}}</td><td class="text-right" ng-class="{'positive-change': location.compare.salary.percent > 1, 'negative-change': location.compare.salary.percent < 1}">{{location.compare.food.percent | percentage}}</td>
+          </tr>
+        </table>
+        <!-- <a class="toggle-link" ng-show="location.showDetails" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">Hide Details</a>
+        <div class="glyphicon glyphicon-remove" ng-click="removeFeedItem(location, $index)"></div> -->
+      </div>
+      <div class="feed-item-action-buttons" ng-class="{'feed-item-action-buttons-displaced': location.showDetails}">
+        <a class="toggle-link" ng-click="location.showDetails = !location.showDetails; $event.stopPropagation()">{{location.showDetails ? 'Hide Details' : 'Show Details'}}</a>
+        <a href="" target="_blank" class="job-search">Browse Jobs</a>
+        <div class="glyphicon glyphicon-remove" ng-click="removeFeedItem(location, $index)"></div>
+      </div>
     </div>
   </div>
 </div>
